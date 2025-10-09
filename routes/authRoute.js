@@ -23,12 +23,11 @@ router.post(
   [
     body("name", "Name Should be minimm 3 Charecters").isLength({ min: 3 }),
     body("email", "Enter Valid Email").isEmail(),
-    body("password", "Password Must be More than 3 Charecters").isLength({
-      min: 3,
-    }),
+    body("password", "Password Must be More than 3 Charecters").isLength({ min: 3}),
+    body("address", "address Must be More than 3 Charecters").isLength({ min: 3}),
   ],
   async (req, res) => {
-    let sucess = false;
+    sucess = false;
     const results = validationResult(req);
     if (!results.isEmpty()) {
       return res.status(404).json({ sucess, error: results.array() });
@@ -44,6 +43,7 @@ router.post(
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
+      address:req.body.address,
     });
     const authtoken = sign({ id: user.id }, JWT_SECRET);
     sucess = true;
@@ -56,9 +56,7 @@ router.post(
   "/login",
   [
     body("email", "Enter Valid Email").isEmail(),
-    body("password", "Password Must be More than 3 Charecters").isLength({
-      min: 3,
-    }),
+    body("password", "Password Must be More than 3 Charecters").isLength({ min: 3 }),
   ],
   async (req, res) => {
     sucess = false;  
@@ -92,7 +90,7 @@ router.post(
 
 
 //fetchUserData
-router.post("/fetchuser", validateLogin, async (req, res) => {
+router.get("/fetchuser", validateLogin, async (req, res) => {
   sucess=false;
   const user = await User.findById(new mongoose.Types.ObjectId(req.user.id)).select("-password");
   sucess = true;

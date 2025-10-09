@@ -14,12 +14,36 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  address:{
+    type:String,
+    required:true,
+  },
+  orderHistory:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Order"
+
+    }],
+  cartData:[{
+       itemId:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"Product"
+       },
+       quantity:{
+        type:Number
+       }
+    }
+  ]
+  ,
   date: {
     type: Date,
     default: Date.now,
   }
-});
+},
+ { minimize: false }  // To prevent mongoose from removing empty objects
 
+);
+ 
 const User = mongoose.model("User", userSchema);
 
 export default User;

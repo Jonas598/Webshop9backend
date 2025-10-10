@@ -27,6 +27,7 @@ router.post(
     let product = await Product.create({
       name: req.body.name,
       desc:req.body.desc,
+      weight:req.body.weight,
       price:req.body.price
     });
     sucess = true;
@@ -62,6 +63,22 @@ router.get("/fetchAllProducts",async(req,res)=>{
         sucess=false;
     try {
         const products = await Product.find({});
+        sucess=true;
+        res.json({sucess,products})
+    } catch (error) {
+        console.log(error);
+        res.json({sucess,message:error.message})
+    }
+    
+
+})
+
+
+// get specific product by id
+router.get("/fetchProductById",async(req,res)=>{
+        sucess=false;
+    try {
+        const products = await Product.findById(req.body.itemId);
         sucess=true;
         res.json({sucess,products})
     } catch (error) {

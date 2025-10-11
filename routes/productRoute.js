@@ -75,7 +75,7 @@ router.get("/fetchAllProducts",async(req,res)=>{
 
 
 // get specific product by id
-router.get("/fetchProductById",async(req,res)=>{
+router.post("/fetchProductById",async(req,res)=>{
         sucess=false;
     try {
         const products = await Product.findById(req.body.itemId);

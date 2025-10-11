@@ -44,6 +44,60 @@ router.post("/addToCart",validateLogin,async (req , res)=> {
 
 
 
+
+
+
+
+
+
+
+
+
+// delete item from cart
+router.post("/deleteFromCart",validateLogin,async (req , res)=> {
+    sucess=false;
+    try {
+        const { itemId } = req.body;
+        const userId = req.user._id; 
+
+        const userData = await User.findById(userId);
+        let cartData = userData.cartData;
+        console.log(userData);
+        
+
+        let flag=true;
+       cartData.map((cartItem)=>{
+        if(cartItem.itemId==itemId){
+            if(cartItem.quantity>0){
+            cartItem.quantity-=1;
+            flag=false;
+            }
+        }
+       })
+       if(flag){
+        res.json({ sucess, message: "Either Product not exist or Quantity in cart is already Zero" });
+       }
+
+        await User.findByIdAndUpdate(userId, {cartData} );
+        sucess=true;
+        res.json({ sucess, message: "deleted from Cart" });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ sucess, message: error.message });
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
  
 // update items in cart
 router.post("/updateCart",validateLogin,async (req , res)=> {

@@ -89,6 +89,26 @@ router.post(
 );
 
 
+//update user Data
+router.post('/updateuser',validateLogin,async(req,res)=>{
+  sucess=false;
+  const { name, address } = req.body;
+  const userData = await User.findById(req.user._id);
+  if(!userData){
+    return res.status(400).json({ sucess, error: "Not logged in Properly" });
+  }
+  try{
+  await User.findByIdAndUpdate(req.user._id, {name,address} );
+   sucess=true;
+   res.json({ sucess, message: "Updated Succesfully" });
+  }
+  catch (error) {
+        console.log(error);
+        res.json({ sucess, message: error.message });
+    }
+
+})
+
 //fetchUserData
 router.get("/fetchuser", validateLogin, async (req, res) => {
   sucess=false;

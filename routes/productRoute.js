@@ -28,10 +28,43 @@ router.post(
       name: req.body.name,
       desc:req.body.desc,
       weight:req.body.weight,
-      price:req.body.price
+      price:req.body.price,
+      avl_peices:req.body.avl_peices,
     });
     sucess = true;
     res.json({ sucess, msg:"Product added successfully", data:product });
+  }
+);
+
+//update product
+router.post(
+  "/updateproduct",
+  [
+    body("name", "Name Should be minimm 3 Charecters").isLength({ min: 3 }),
+    body("desc", "description Should be minimm 3 Charecters").isLength({ min: 5 }),
+  ],
+  async (req, res) => {
+    sucess = false;
+    const results = validationResult(req);
+    if (!results.isEmpty()) {
+      return res.status(404).json({ sucess, error: results.array() });
+    }
+
+    const isIdExists=await Product.findById(req.body.id);
+    if(!isIdExists){
+      return res.status(404).json({ sucess, message: "product you are trying to update does not exist " });
+
+    }
+    
+    let product = await Product.findByIdAndUpdate(req.body.id,{
+      name: req.body.name,
+      desc:req.body.desc,
+      weight:req.body.weight,
+      price:req.body.price,
+      avl_peices:req.body.avl_peices,
+    });
+    sucess = true;
+    res.json({ sucess, msg:"Product updated successfully", data:product });
   }
 );
 

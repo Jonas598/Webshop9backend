@@ -201,7 +201,7 @@ router.post("/order",validateLogin,async (req , res)=> {
         orderHistory.push(orderedData._id);
         await User.findByIdAndUpdate(userId, { orderHistory });
         // console.log(orderedData._id);
-        
+        await User.findByIdAndUpdate(userId, {cartData:[]} );
         sucess=true;
         res.json({ sucess, message: "Order succesfull", data:orderedData});
     } catch (error) {

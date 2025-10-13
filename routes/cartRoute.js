@@ -196,7 +196,6 @@ router.post("/order",validateLogin,async (req , res)=> {
             total_price,
             order_status,
             products
-
         });
         const orderHistory = userData.orderHistory
         orderHistory.push(orderedData._id);
@@ -230,7 +229,7 @@ router.get("/getallorders",validateLogin,async (req , res)=> {
 
 
 // get single order details
-router.get("/getsingleorder",validateLogin,async (req , res)=> {
+router.post("/getsingleorder",validateLogin,async (req , res)=> {
     sucess=false;
     try {
         const orderId = req.body.orderId;

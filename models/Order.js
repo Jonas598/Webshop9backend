@@ -18,28 +18,16 @@ const orderSchema = new Schema({
     required: true,
   },
   products: [
-    {product_name:{
-    type: String,
-    required: true,
-  },
-  product_desc:{
-    type:String,
-    required: true,
-  },
-  product_weight:{
-    type:Number,
-    required: true,
-  },
-  product_price:{
-    type:Number,
-    required: true,
-  },
-  product_quantity:{
-    type:Number,
-    required: true,
-  }
-
-}
+    {
+        itemId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Product"
+        },
+        quantity:{
+            type:Number,
+            required: true,
+        }
+    }
   ],
   total_price:{
     type: Number,

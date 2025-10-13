@@ -216,10 +216,9 @@ router.get("/getallorders",validateLogin,async (req , res)=> {
     sucess=false;
     try {
         const userId = req.user._id;
-        const userData = await User.findById(userId);
-        let orderHistory = userData.orderHistory;
+        const OrderData = await Order.find({userId});
         sucess=true;
-        res.json({ sucess, orderHistory });
+        res.json({ sucess, OrderData });
     } catch (error) {
         console.log(error);
         res.json({ sucess, message: error.message });

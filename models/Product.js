@@ -9,8 +9,8 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  weight: {
-    type: Number,
+  productId: {
+    type: String,
     required: true,
   },
   price: {

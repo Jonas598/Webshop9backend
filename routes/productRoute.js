@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 
 import { body, validationResult } from "express-validator";
+import syncProductsFromERP from "../middleware/syncProductsFromERP.js";
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post(
   [
     body("name", "Name Should be minimm 3 Charecters").isLength({ min: 3 }),
     body("desc", "description Should be minimm 3 Charecters").isLength({ min: 5 }),
-    // body("price", "please enter price").isEmpty(),
+    // body("price", "please enter price").isEmpty(),     
   ],
   async (req, res) => {
     sucess = false;
@@ -27,9 +28,10 @@ router.post(
     let product = await Product.create({
       name: req.body.name,
       desc:req.body.desc,
-      weight:req.body.weight,
+      // weight:req.body.weight,
       price:req.body.price,
       avl_peices:req.body.avl_peices,
+      productId:req.body.productId
     });
     sucess = true;
     res.json({ sucess, msg:"Product added successfully", data:product });
@@ -59,7 +61,7 @@ router.post(
     let product = await Product.findByIdAndUpdate(req.body.id,{
       name: req.body.name,
       desc:req.body.desc,
-      weight:req.body.weight,
+      // weight:req.body.weight,
       price:req.body.price,
       avl_peices:req.body.avl_peices,
     });
@@ -95,6 +97,7 @@ router.post("/deleteProduct",async(req,res)=>{
 router.get("/fetchAllProducts",async(req,res)=>{
         sucess=false;
     try {
+      syncProductsFromERP()
         const products = await Product.find({});
         sucess=true;
         res.json({sucess,products})

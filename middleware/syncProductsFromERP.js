@@ -53,7 +53,13 @@ async function syncProductsFromERP() {
             errorCode:"PRODUCT_INFO_MISSING",
             errorMessage:`Product has missing Informaation : ${JSON.stringify(product)}`,
             errorTag:'minor'
-        })
+        });
+        await Product.findOneAndUpdate(
+        { productId: product.productID },
+        {
+          avl_peices: 0,
+        }
+      );
         console.warn(`⚠️ Skipping invalid product: ${JSON.stringify(product)}`);
         continue;
       }

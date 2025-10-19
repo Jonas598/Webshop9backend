@@ -29,7 +29,7 @@ async function syncProductsFromERP() {
 
 
     const products = await apires.json();
-    console.log(products,"hi");
+    console.log(products);
     
 
     if (!Array.isArray(products)) throw new Error('Invalid ERP API response: not an array');

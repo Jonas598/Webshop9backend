@@ -97,7 +97,7 @@ router.post("/deleteProduct",async(req,res)=>{
 router.get("/fetchAllProducts",async(req,res)=>{
         sucess=false;
     try {
-      syncProductsFromERP()
+      await syncProductsFromERP()
         const products = await Product.find({});
         sucess=true;
         res.json({sucess,products})

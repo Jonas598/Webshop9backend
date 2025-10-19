@@ -4,6 +4,7 @@ import Product from "../models/Product.js";
 
 import { body, validationResult } from "express-validator";
 import syncProductsFromERP from "../middleware/syncProductsFromERP.js";
+import Error from "../models/Error.js";
 
 const router = express.Router();
 
@@ -125,6 +126,20 @@ router.post("/fetchProductById",async(req,res)=>{
 
 })
 
+/// get all errors
+router.get("/fetchallerrors",async(req,res)=>{
+        sucess=false;
+    try {
+        const Errors = await Error.find({});
+        sucess=true;
+        res.json({sucess,Errors})
+    } catch (error) {
+        console.log(error);
+        res.json({sucess,message:error.message})
+    }
+    
+
+})
  
 
 export default router;
